@@ -1,24 +1,33 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import api from "../utils/api";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { ArrowUpCircle, ArrowDownCircle, IndianRupee } from "lucide-react";
+import { ArrowUpCircle, ArrowDownCircle, IndianRupee, Clock, ArrowRight } from "lucide-react";
 
 const Dashboard = () => {
   const [summary, setSummary] = useState({ income: 0, expense: 0, balance: 0, categoryBreakdown: [] });
+  const [recentTransactions, setRecentTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSummary = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await api.get("/transactions/summary");
-        setSummary(data);
+        const [summaryRes, transactionsRes] = await Promise.all([
+          api.get("/transactions/summary"),
+          api.get("/transactions", { params: { limit: 5, page: 1 } })
+        ]);
+        setSummary(summaryRes.data);
+        setRecentTransactions(transactionsRes.data.data || []);
       } catch (error) {
-        console.error("Error fetching summary", error);
+        console.error("Error fetching dashboard data", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchSummary();
+    fetchData();
   }, []);
 
-  const COLORS = ["#06b6d4", "#10b981", "#f59e0b", "#f97316", "#8b5cf6"];
+  const COLORS = ["#06b6d4", "#10b981", "##f59e0b", "#f97316", "#8b5cf6"];
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-8 animate-fade-in">
@@ -90,9 +99,66 @@ const Dashboard = () => {
           </div>
         </div>
         
-        {/* Placeholder for Recent Transactions or Line Chart */}
-        <div className="glass p-6 rounded-2xl flex items-center justify-center border-dashed border-2 border-white/10">
-          <p className="text-slate-500">Expense Trends (Coming Soon)</p>
+        {/* Recent Transactions */}
+        <div className="glass p-6 rounded-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white/90 flex items-center gap-2">
+              <Clock size={20} className="text-cyan-400" />
+              Recent Transactions
+            </h3>
+            <Link 
+              to="/transactions" 
+              className="text-cyan-400 hover:text-cyan-300 text-sm flex items-center gap-1 transition"
+            >
+              View All <ArrowRight size={16} />
+            </Link>
+          </div>
+          
+          <div className="space-y-3">
+            {loading ? (
+              <p className="text-center text-slate-400 py-8">Loading...</p>
+            ) : recentTransactions.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-slate-400 mb-2">No transactions yet</p>
+                <Link 
+                  to="/transactions" 
+                  className="text-cyan-400 hover:text-cyan-300 text-sm transition"
+                >
+                  Add your first transaction
+                </Link>
+              </div>
+            ) : (
+              recentTransactions.map((transaction) => (
+                <div 
+                  key={transaction._id} 
+                  className="flex items-center justify-between p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg ${
+                      transaction.type === 'income' 
+                        ? 'bg-cyan-500/20 text-cyan-400' 
+                        : 'bg-orange-500/20 text-orange-400'
+                    }`}>
+                      {transaction.type === 'income' ? (
+                        <ArrowUpCircle size={16} />
+                      ) : (
+                        <ArrowDownCircle size={16} />
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-medium">{transaction.title}</p>
+                      <p className="text-slate-400 text-xs">{transaction.category}</p>
+                    </div>
+                  </div>
+                  <span className={`font-semibold text-sm ${
+                    transaction.type === 'income' ? 'text-cyan-400' : 'text-orange-400'
+                  }`}>
+                    {transaction.type === 'income' ? '+' : '-'}₹{transaction.amount}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

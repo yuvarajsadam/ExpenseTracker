@@ -32,7 +32,7 @@ const Register = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-pink-500 transition"
+              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-400 transition"
               required
             />
           </div>
@@ -42,7 +42,7 @@ const Register = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-pink-500 transition"
+              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-400 transition"
               required
             />
           </div>
@@ -52,16 +52,16 @@ const Register = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-pink-500 transition"
+              className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-400 transition"
               required
             />
           </div>
-          <button type="submit" className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-2 rounded-lg transition shadow-lg shadow-pink-500/20">
+          <button type="submit" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-2 rounded-lg transition shadow-lg shadow-cyan-500/30">
             Sign Up
           </button>
         </form>
         <p className="mt-4 text-center text-slate-400 text-sm">
-          Already have an account? <Link to="/login" className="text-pink-400 hover:text-pink-300">Login</Link>
+          Already have an account? <Link to="/login" className="text-cyan-400 hover:text-cyan-300">Login</Link>
         </p>
       </div>
     </div>

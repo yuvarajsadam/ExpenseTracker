@@ -29,7 +29,7 @@ const Navbar = () => {
           </>
         ) : (
           <div className="flex gap-4">
-            <Link to="/login" className="text-white/80 hover:text-white">Login</Link>
+            <Link to="/login" className="bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-lg font-medium transition shadow-lg shadow-pink-500/20">Login</Link>
             <Link to="/register" className="bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-lg font-medium transition shadow-lg shadow-pink-500/20">
               Get Started
             </Link>
