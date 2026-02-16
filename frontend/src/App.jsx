@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Layout/Navbar";
@@ -26,14 +26,6 @@ const Home = () => (
     <p className="text-slate-400 text-lg max-w-2xl">
       Track your expenses, analyze spending habits, and achieve financial freedom with our modern, AI-powered insights platform.
     </p>
-   <button
-      onClick={() => navigate("/register")}
-      className="glass px-8 py-3 rounded-full text-white font-semibold
-                 hover:bg-white/10 transition transform hover:scale-105
-                 active:scale-95 backdrop-blur-md"
-    >
-      Start for Free →
-    </button>
   </div>
 );
 
@@ -45,8 +37,8 @@ function App() {
           <div className="fixed inset-0 -z-10 h-full w-full bg-slate-950 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] opacity-50"></div>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route 
               path="/dashboard" 
