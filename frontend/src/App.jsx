@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Layout/Navbar";
@@ -10,6 +10,7 @@ import AuthContext from "./context/AuthContext";
 
 // Protected Route Component
 const PrivateRoute = ({ children }) => {
+  const navigate = useNavigate();
   const { user, loading } = useContext(AuthContext);
 
   if (loading) return <div className="text-white text-center mt-20">Loading...</div>;
@@ -25,9 +26,14 @@ const Home = () => (
     <p className="text-slate-400 text-lg max-w-2xl">
       Track your expenses, analyze spending habits, and achieve financial freedom with our modern, AI-powered insights platform.
     </p>
-    <a href="/register" className="glass px-8 py-3 rounded-full text-white font-semibold hover:bg-white/10 transition transform hover:scale-105">
-      Start for Free
-    </a>
+   <button
+      onClick={() => navigate("/register")}
+      className="glass px-8 py-3 rounded-full text-white font-semibold
+                 hover:bg-white/10 transition transform hover:scale-105
+                 active:scale-95 backdrop-blur-md"
+    >
+      Start for Free →
+    </button>
   </div>
 );
 
